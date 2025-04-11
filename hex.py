@@ -12,17 +12,12 @@ class HexBoard:
         """Devuelve una copia del tablero actual"""
         new_board = HexBoard(self.size)
         new_board.board = [row[:] for row in self.board]
-        new_board.player_positions = {
-            1: self.player_positions[1].copy(),
-            2: self.player_positions[2].copy()
-        }
         return new_board
     
     def place_piece(self, row: int, col: int, player_id: int) -> bool:
         """Coloca una ficha si la casilla está vacía."""
         if self.board[row][col] == 0:
             self.board[row][col] = player_id
-            self.player_positions[player_id].add((row, col))
             return True
         return False
     
@@ -151,8 +146,6 @@ class AIPlayer(Player):
             while move_stack:
                 last_move = move_stack.pop()
                 board.board[last_move[0]][last_move[1]] = 0  # Deshacer el movimiento
-                board.player_positions[1].discard(last_move)
-                board.player_positions[2].discard(last_move)
         
         # Seleccionar el movimiento más visitado
         if not root.children:

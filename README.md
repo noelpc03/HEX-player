@@ -1,6 +1,6 @@
 # 🤖 IA para Hex con Monte Carlo Tree Search (MCTS)
 
-Este proyecto implementa una Inteligencia Artificial para el juego de **Hex**, utilizando el algoritmo **Monte Carlo Tree Search (MCTS)**. El objetivo es permitir que la IA tome decisiones estratégicas basadas en simulaciones rápidas y efectivas.
+Este proyecto implementa una Inteligencia Artificial para el juego de **Hex** en la clase **AIPlayer**, utilizando el algoritmo **Monte Carlo Tree Search (MCTS)**. El objetivo es permitir que la IA tome decisiones estratégicas basadas en simulaciones rápidas y efectivas.
 
 ## 🎯 Objetivo
 

@@ -1,16 +1,15 @@
 import math
 import random
 import time
-from typing import Tuple, List
 from collections import deque
 
 class HexBoard:
     def __init__(self, size: int):
         self.size = size
         self.board = [[0] * size for _ in range(size)]
-        self.player_positions = {1: set(), 2: set()}
     
     def clone(self) -> 'HexBoard':
+        """Devuelve una copia del tablero actual"""
         new_board = HexBoard(self.size)
         new_board.board = [row[:] for row in self.board]
         new_board.player_positions = {
@@ -20,16 +19,19 @@ class HexBoard:
         return new_board
     
     def place_piece(self, row: int, col: int, player_id: int) -> bool:
+        """Coloca una ficha si la casilla está vacía."""
         if self.board[row][col] == 0:
             self.board[row][col] = player_id
             self.player_positions[player_id].add((row, col))
             return True
         return False
     
-    def get_possible_moves(self) -> List[Tuple[int, int]]:
+    def get_possible_moves(self) -> list:
+        """Devuelve todas las casillas vacías como tuplas (fila, columna)."""
         return [(i, j) for i in range(self.size) for j in range(self.size) if self.board[i][j] == 0]
     
     def check_connection(self, player_id: int) -> bool:
+        """Verifica si el jugador ha conectado sus dos lados"""
         visited = set()
         queue = []
         
@@ -57,7 +59,7 @@ class HexBoard:
                             queue.append(neighbor)
         return False
     
-    def get_neighbors(self, pos: Tuple[int, int]) -> List[Tuple[int, int]]:
+    def get_neighbors(self, pos) -> list:
         row, col = pos
         neighbors = []
         deltas = [(-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0)]
@@ -71,10 +73,10 @@ class HexBoard:
 
 class Player:
     def __init__(self, player_id: int):
-        self.player_id = player_id
-    
-    def play(self, board: HexBoard) -> Tuple[int, int]:
-        raise NotImplementedError
+        self.player_id = player_id  # Tu identificador (1 o 2)
+
+    def play(self, board: HexBoard) -> tuple:
+        raise NotImplementedError("¡Implementa este método!")
 
 class MCTSNode:
     def __init__(self, board: HexBoard, player: int, parent=None, move=None):
@@ -100,7 +102,7 @@ class AIPlayer(Player):
         super().__init__(player_id)
         self.time_limit = time_limit  # Segundos por jugada
     
-    def play(self, board: HexBoard) -> Tuple[int, int]:
+    def play(self, board: HexBoard) -> tuple:
         root = MCTSNode(board, self.player_id)
         start_time = time.time()
         move_stack = deque()  # Pila para almacenar los movimientos realizados
